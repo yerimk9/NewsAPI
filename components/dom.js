@@ -14,6 +14,7 @@ export const appendChildernList = (target, childrenList) => {
   if(!Array.isArray(childrenList)) return;
 
   childrenList.forEach((children) => {
+    if(!children) return;
     target.appendChild(children);
   })
 }
