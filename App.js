@@ -1,3 +1,4 @@
+// App.js
 import { Nav, NewsList } from "./components/index.js";
 
 const root = document.querySelector("#root");
@@ -11,13 +12,13 @@ const newsList = new NewsList();
 newsList.renderNewsList(root);
 
 // Menu
-document.querySelector('nav').addEventListener('click', (event) => {
-  if (event.target.className === 'category-item') {
-    const activeItem = document.querySelector('.active');
+document.querySelector("nav").addEventListener("click", (event) => {
+  if (event.target.className === "category-item") {
+    const activeItem = document.querySelector(".active");
     if (activeItem) {
-      activeItem.classList.remove('active');
+      activeItem.classList.remove("active");
     }
-    event.target.classList.add('active');
+    event.target.classList.add("active");
     newsList.clearNewsList();
     NewsProxy.category = event.target.id;
     NewsProxy.page = 1;
@@ -52,7 +53,9 @@ function scrollObserver() {
 window.onload = function () {
   scrollObserver();
   subscribe(() => {
-    newsList.getNews(); // 리렌더링 수행
+    if (newsList.page <= newsList.lastPage) {
+      newsList.getNews(newsList.category, newsList.page, newsList.pageSize);
+    }
   });
 };
 
@@ -63,5 +66,5 @@ function subscribe(observer) {
 }
 
 function notify() {
-  observers.forEach(observer => observer());
+  observers.forEach((observer) => observer());
 }
